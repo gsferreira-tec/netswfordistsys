@@ -18,19 +18,6 @@ public class FaultSupervisor extends AbstractActor {
 				.match(GetMsg.class, msg -> server.forward(msg, getContext()))
 				.build();
 	}
-//	
-//	@Override
-//	public SupervisorStrategy supervisorStrategy() {
-//		return new OneForOneStrategy(
-//				10,
-//				java.time.Duration.ofMinutes(1),
-//				DeciderBuilder
-//					.match(RuntimeException.class,
-//						ex -> SupervisorStrategy.resume())
-//					.matchAny(ex -> SupervisorStrategy.escalate())
-//					.build()
-//		);
-//	}
 	
 	@Override
 	public SupervisorStrategy supervisorStrategy() {
@@ -39,11 +26,24 @@ public class FaultSupervisor extends AbstractActor {
 				java.time.Duration.ofMinutes(1),
 				DeciderBuilder
 					.match(RuntimeException.class,
-						ex -> SupervisorStrategy.restart())
+						ex -> SupervisorStrategy.resume())
 					.matchAny(ex -> SupervisorStrategy.escalate())
 					.build()
 		);
 	}
+	
+//	@Override
+//	public SupervisorStrategy supervisorStrategy() {
+//		return new OneForOneStrategy(
+//				10,
+//				java.time.Duration.ofMinutes(1),
+//				DeciderBuilder
+//					.match(RuntimeException.class,
+//						ex -> SupervisorStrategy.restart())
+//					.matchAny(ex -> SupervisorStrategy.escalate())
+//					.build()
+//		);
+//	}
 	
 	public static Props props() {
 		return Props.create(FaultSupervisor.class);
