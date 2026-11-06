@@ -78,7 +78,8 @@ public class SensorDataProcessor {
 		ActorRef faultySensor = sys.actorOf(TemperatureSensorFaultyActor.props(), "tFaulty");
 		sensors.add(0, faultySensor);
 		
-		faultySensor.tell(new DispatcherRefMsg(dispatcher), ActorRef.noSender());
+		// telling the dispatcher reference to the new 'faulty' sensor - added
+		faultySensor.tell(new DispatcherRefMsg(dispatcher), ActorRef.noSender());  
 		
 		// Wait until system is ready again
 		try {
@@ -95,6 +96,6 @@ public class SensorDataProcessor {
 			}
 		}
 
-		sys.terminate();
+		sys.terminate(); // optional - added to kill the program after the end of the last for loop above
 	}
 }

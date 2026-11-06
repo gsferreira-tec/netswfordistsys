@@ -16,7 +16,7 @@ public class TemperatureSensorActor extends AbstractActor {
 	public AbstractActor.Receive createReceive() {
 		return receiveBuilder()
 				.match(GenerateMsg.class, this::onGenerate)
-				.match(DispatcherRefMsg.class, this::onDispatcher)
+				.match(DispatcherRefMsg.class, this::onDispatcher) // matching dispatcher message to the related handler method
 				.build();
 	}
 
@@ -26,6 +26,7 @@ public class TemperatureSensorActor extends AbstractActor {
 		dispatcher.tell(new TemperatureMsg(temp,self()), self());
 	}
 
+	// needed to set the dispatcher for each sensor - added
 	private void onDispatcher(DispatcherRefMsg msg) {
 		dispatcher = msg.getDispatcher();
 	}

@@ -14,11 +14,15 @@ public class SensorProcessorActor extends AbstractActor {
 	}
 
 	private void gotData(TemperatureMsg msg) throws Exception {
-		readings++;
+		readings++; // counter of the number of readings obtained - used in the currentAverage calculation
 		System.out.println("SENSOR PROCESSOR " + self() + ": Got data from " + msg.getSender());
 
+		// computing the average temp - needs to be done this way
+		// initially tried curerntAverage += msg.getTemperature() / readings but 
+		// because they are both integers Java would return an int as well cutting the decimal part...
 		currentAverage = currentAverage + (msg.getTemperature() - currentAverage) / readings;
-
+		
+		// guard for if the average drops to negative...
 		if(currentAverage < 0) {
 			throw new RuntimeException("[ERROR] Temperature avg dropped to negative!");
 		}

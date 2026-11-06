@@ -13,7 +13,7 @@ public class TemperatureSensorFaultyActor extends TemperatureSensorActor {
 	public AbstractActor.Receive createReceive() {
 		return receiveBuilder()
 				.match(GenerateMsg.class, this::onGenerate)
-				.match(DispatcherRefMsg.class, this::onDispatcher)
+				.match(DispatcherRefMsg.class, this::onDispatcher) // matching dispatcher message to the related handler method here as well
 				.build();
 	}
 
