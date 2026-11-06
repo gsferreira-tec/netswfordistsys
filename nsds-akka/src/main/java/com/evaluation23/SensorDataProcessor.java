@@ -29,6 +29,7 @@ public class SensorDataProcessor {
 		// TODO: Create dispatcher
 		final ActorRef dispatcher = sys.actorOf(DispatcherActor.props(), "dispatcher"); // DONE
 		
+		// telling the sensors the reference to the dispatcher
 		for (ActorRef t : sensors) {
 			t.tell(new DispatcherRefMsg(dispatcher), ActorRef.noSender());
 		}
