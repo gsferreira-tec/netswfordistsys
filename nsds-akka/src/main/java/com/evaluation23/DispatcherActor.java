@@ -23,7 +23,7 @@ public class DispatcherActor extends AbstractActorWithStash {
 	@Override 
 	public void preStart() {
 		for(int i = 0; i < NO_PROCESSORS; i++) {
-			processors.add(getContext().actorOf(SensorProcessorActor.props(), "p" + i));
+			processors.add(getContext().actorOf(SensorProcessorActor.props(), "p" + i)); // gettign references from sys about the processors
 		}
 	}
 
@@ -58,7 +58,7 @@ public class DispatcherActor extends AbstractActorWithStash {
 	// this implementation was a bit over my head - needs to keep track of the sensor that sent the data
 	private void dispatchDataLoadBalancer(TemperatureMsg msg) {
 		ActorRef sensor = msg.getSender();
-		ActorRef processor = assigned.get(sensor); //gets the number of sensors attached to a processor?
+		ActorRef processor = assigned.get(sensor); // setting the processor to the one attached to the sensor in "assigned"
 		if(processor == null) { // if there are none
 			processor = processors.get(0); // get processor with 0 sensors
 			int best = count(processor); // start with the number of sensors attached to a processor
