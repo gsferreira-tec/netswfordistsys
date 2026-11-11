@@ -1,4 +1,4 @@
-package com.admin;
+package com.lab1.admin;
 
 import org.apache.kafka.clients.admin.*;
 

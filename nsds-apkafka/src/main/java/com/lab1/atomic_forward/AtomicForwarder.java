@@ -1,4 +1,4 @@
-package com.atomic_forward;
+package com.lab1.atomic_forward;
 
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.clients.producer.KafkaProducer;

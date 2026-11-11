@@ -1,17 +1,21 @@
-package com.atomic_forward;
+package com.lab1.basic;
+
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringSerializer;
 
-import java.util.*;
-
-public class IdempotentProducer {
+public class BasicProducer {
     private static final String defaultTopic = "topicA";
 
     private static final int numMessages = 100000;
     private static final int waitBetweenMsgs = 500;
+    private static final boolean waitAck = false;
 
     private static final String serverAddr = "localhost:9092";
 
@@ -24,14 +28,10 @@ public class IdempotentProducer {
 
         final Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, serverAddr);
-
-        // Idempotence = exactly once semantics between the producer and the partition
-        props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, String.valueOf(true));
-
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
-        final KafkaProducer<String, String> producer = new KafkaProducer<>(props);
+        final KafkaProducer<String, String> producer = new KafkaProducer<>(props); //instantiate kaka producer - previously create properties object for producer (3 lines above)
         final Random r = new Random();
 
         for (int i = 0; i < numMessages; i++) {
@@ -44,8 +44,17 @@ public class IdempotentProducer {
                     "\tValue: " + value
             );
 
-            final ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, value);
-            producer.send(record);
+            final ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, value); // create a record
+            final Future<RecordMetadata> future = producer.send(record); // send record to kafka 
+
+            if (waitAck) { // configuration is possible to instead of waiting for a single ack from any server it can wait for an ack from a specific server instead...
+                try {
+                    RecordMetadata ack = future.get();
+                    System.out.println("Ack for topic " + ack.topic() + ", partition " + ack.partition() + ", offset " + ack.offset());
+                } catch (InterruptedException | ExecutionException e1) {
+                    e1.printStackTrace();
+                }
+            }
 
             try {
                 Thread.sleep(waitBetweenMsgs);

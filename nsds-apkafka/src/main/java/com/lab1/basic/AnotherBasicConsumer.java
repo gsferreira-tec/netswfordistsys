@@ -1,4 +1,4 @@
-package com.basic;
+package com.lab1.basic;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
