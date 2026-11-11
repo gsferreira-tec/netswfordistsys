@@ -26,3 +26,5 @@ target/
 .metadata/\settings
 .classpath
 .project\m*.bak
+
+NSDS_kafka_tutorial/
