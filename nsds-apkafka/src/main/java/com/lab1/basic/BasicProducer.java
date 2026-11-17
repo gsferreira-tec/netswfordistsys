@@ -10,6 +10,10 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringSerializer;
 
+/*
+This is the producer to make idempotent not the producer from the forwarder "consumer"
+*/
+
 public class BasicProducer {
     private static final String defaultTopic = "topicA";
 

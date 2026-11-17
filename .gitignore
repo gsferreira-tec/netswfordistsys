@@ -28,3 +28,8 @@ target/
 .project\m*.bak
 
 NSDS_kafka_tutorial/
+
+# IDE configuration files
+.vscode
+.cursor
+.idea

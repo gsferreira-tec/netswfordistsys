@@ -20,7 +20,7 @@ public class TransactionalProducer {
         // If there are no arguments, publish to the default topic
         // Otherwise publish on the topics provided as argument
         List<String> topics = args.length < 1 ?
-                Collections.singletonList(defaultTopic) :
+            Collections.singletonList(defaultTopic) :
                 Arrays.asList(args);
 
         final Properties props = new Properties();
