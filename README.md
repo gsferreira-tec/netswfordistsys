@@ -4,3 +4,4 @@
 
 - Technologies covered thus far are:
   - Akka
+  - Apache Kafka
